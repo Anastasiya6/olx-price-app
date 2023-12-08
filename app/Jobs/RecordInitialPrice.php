@@ -41,7 +41,6 @@ class RecordInitialPrice implements ShouldQueue
     public function handle(OlxParserService $olxParserService)
     {
         $price = $olxParserService->olxParser($this->link);
-        Log::info('ціну знайдено '.$price);
         if($price) {
             ProductPrice::create([
                 'link_id' => $this->linkId,
