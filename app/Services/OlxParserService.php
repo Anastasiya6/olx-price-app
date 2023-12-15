@@ -3,15 +3,20 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\BrowserKit\HttpBrowser;
+use Symfony\Component\DomCrawler\Crawler;
+use GuzzleHttp\Client;
 
 class OlxParserService
 {
     public function olxParser($link )
     {
-        $client = new HttpBrowser();
+        $client = new Client();
 
-        $crawler = $client->request('GET', $link);
+        $response = $client->request('GET', $link);
+
+        $html = $response->getBody()->getContents();
+
+        $crawler = new Crawler($html);
 
         $priceElement = $crawler->filter('h3.css-12vqlj3')->first();
 
